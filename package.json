@@ -1,0 +1,20 @@
+{
+  "name": "babyscores",
+  "version": "1.0.0",
+  "description": "Simple Babyfoot games scoring history app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/padoramix/babyscores.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/padoramix/babyscores/issues"
+  },
+  "homepage": "https://github.com/padoramix/babyscores#readme"
+}
