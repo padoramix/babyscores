@@ -5,10 +5,11 @@ import helmet from "helmet"
 import { userRouter } from "./users/user.routes"
 import { teamRouter } from "./teams/team.routes"
 
+// TODO : Add comments over every function
 // TODO : Add and configure jest for tests
-// Insert same logic for games
-// Add corresponding tests
-// Start look for quick interface with vusjs maybe tailwind for CSS
+// TODO : Insert same logic for games
+// TODO : Add corresponding tests
+// TODO : Start look for quick interface with vusjs maybe tailwind for CSS
 
 dotevnv.config()
 
@@ -29,6 +30,7 @@ app.use(helmet())
 app.use('/', userRouter)
 app.use('/', teamRouter)
 
+// Launching server and listening for PORT (from .env)
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`)
 })
