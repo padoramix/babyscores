@@ -5,6 +5,10 @@ import * as database from "./user.database"
 
 export const userRouter = express.Router()
 
+/** 
+ * GET /users
+ * Returns all the users
+*/
 userRouter.get("/users", async (req : Request, res : Response) => {
     try {
         const allUsers : UnitUser[] = await database.findAll()
@@ -19,6 +23,10 @@ userRouter.get("/users", async (req : Request, res : Response) => {
     }
 })
 
+/**
+ * GET /user/:id
+ * Get the full details for user with corresponding id
+ */
 userRouter.get("/user/:id", async (req : Request, res : Response) => {
     try {
         const user : UnitUser = await database.findOne(req.params.id)
@@ -33,6 +41,10 @@ userRouter.get("/user/:id", async (req : Request, res : Response) => {
     }
 })
 
+/**
+ * POST /register
+ * Record a new user
+ */
 userRouter.post("/register", async (req : Request, res : Response) => {
     try {
         const { username, email, password, avatar } = req.body
@@ -57,6 +69,10 @@ userRouter.post("/register", async (req : Request, res : Response) => {
     }
 })
 
+/**
+ * POST /login
+ * Login the user
+ */
 userRouter.post("/login", async (req : Request, res : Response) => {
     try {
         const {email, password} = req.body
@@ -84,7 +100,10 @@ userRouter.post("/login", async (req : Request, res : Response) => {
     }
 })
 
-
+/**
+ * PUT /user/:id
+ * Update user
+ */
 userRouter.put('/user/:id', async (req : Request, res : Response) => {
 
     try {
@@ -110,6 +129,10 @@ userRouter.put('/user/:id', async (req : Request, res : Response) => {
     }
 })
 
+/** 
+ * DELETE /user/:id
+ * Put the user with id in delete state(or not active state)
+*/
 userRouter.delete("/user/:id", async (req : Request, res : Response) => {
     try {
         const id = (req.params.id)
