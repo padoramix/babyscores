@@ -3,8 +3,18 @@ import bcrypt from "bcryptjs"
 import {v4 as random} from "uuid"
 import fs from "fs"
 
+/** 
+ * @type {*}
+ */
 let users: Users = loadUsers() 
 
+/**
+ * loadUsers
+ * Function that load all users from JSON file
+ * Return empty object when no users
+ *
+ * @return {*}  {Users}
+ */
 function loadUsers () : Users {
   try {
     const data = fs.readFileSync("./src/db/users.json", "utf-8")
@@ -15,6 +25,11 @@ function loadUsers () : Users {
   }
 }
 
+/**
+ * saveUsers
+ * Function that record the users array in the corresponding JSON file 
+ *
+ */
 function saveUsers () {
   try {
     fs.writeFileSync("./src/db/users.json", JSON.stringify(users), "utf-8")
@@ -24,10 +39,31 @@ function saveUsers () {
   }
 }
 
+/**
+ * findAll
+ * Search and returns all users from DB
+ * 
+ * @return {*} {Users}
+ */
 export const findAll = async (): Promise<UnitUser[]> => Object.values(users);
 
+/**
+ * findOne
+ * Search and returns the user targetted by ID
+ * 
+ * @param id: string
+ * @returns {User}
+ */
 export const findOne = async (id: string): Promise<UnitUser> => users[id];
 
+
+/**
+ * create
+ * Creates user with data in param
+ *
+ * @param {UnitUser} userData
+ * @return {*}  {(Promise<UnitUser | null>)}
+ */
 export const create = async (userData: UnitUser): Promise<UnitUser | null> => {
 
   let id = random()
@@ -58,6 +94,14 @@ export const create = async (userData: UnitUser): Promise<UnitUser | null> => {
   return user;
 };
 
+
+/**
+ * findByEmail
+ * Find a user by email
+ *
+ * @param {string} user_email
+ * @return {*}  {(Promise<null | UnitUser>)}
+ */
 export const findByEmail = async (user_email: string): Promise<null | UnitUser> => {
 
   const allUsers = await findAll();
@@ -71,6 +115,15 @@ export const findByEmail = async (user_email: string): Promise<null | UnitUser> 
   return getUser;
 };
 
+
+/**
+ * comparePassword
+ * Check if supplied_password matches with user password
+ *
+ * @param {string} email
+ * @param {string} supplied_password
+ * @return {*}  {(Promise<null | UnitUser>)}
+ */
 export const comparePassword  = async (email : string, supplied_password : string) : Promise<null | UnitUser> => {
 
     const user = await findByEmail(email)
@@ -84,6 +137,14 @@ export const comparePassword  = async (email : string, supplied_password : strin
     return user
 }
 
+/**
+ * update
+ * Updates the target user (id) with updateValues
+ *
+ * @param {string} id
+ * @param {User} updateValues
+ * @return {*}  {(Promise<UnitUser | null>)}
+ */
 export const update = async (id : string, updateValues : User) : Promise<UnitUser | null> => {
 
     const userExists = await findOne(id)
@@ -109,6 +170,18 @@ export const update = async (id : string, updateValues : User) : Promise<UnitUse
     return users[id]
 }
 
+// TODO: Remove user which is already in one or more 
+// teams must return a specific code for UI to ask if we want to remove teams as well
+// Look forward for player flag to know wether user is active or inactive
+
+
+/**
+ * remove
+ * Remove the user that matches id in param
+ *
+ * @param {string} id
+ * @return {*}  {(Promise<null | void>)}
+ */
 export const remove = async (id : string) : Promise<null | void> => {
 
     const user = await findOne(id)
