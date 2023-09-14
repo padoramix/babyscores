@@ -3,6 +3,12 @@ import * as dotevnv from "dotenv"
 import cors from "cors"
 import helmet from "helmet"
 import { userRouter } from "./users/user.routes"
+import { teamRouter } from "./teams/team.routes"
+
+// TODO : Add and configure jest for tests
+// Insert same logic for games
+// Add corresponding tests
+// Start look for quick interface with vusjs maybe tailwind for CSS
 
 dotevnv.config()
 
@@ -21,6 +27,7 @@ app.use(helmet())
 
 // Setting up routes
 app.use('/', userRouter)
+app.use('/', teamRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`)
