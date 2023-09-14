@@ -5,6 +5,10 @@ import { StatusCodes } from "http-status-codes"
 
 export const teamRouter = express.Router()
 
+/**
+ * GET /teams
+ * Return all teams
+ */
 teamRouter.get("/teams", async (req : Request, res : Response) => {
   try {
     const allTeams : UnitTeam[] = await database.findAll()
@@ -19,6 +23,10 @@ teamRouter.get("/teams", async (req : Request, res : Response) => {
   }
 })
 
+/**
+ * GET /team/:id
+ * Return the route complete information
+ */
 teamRouter.get("/team/:id", async (req : Request, res : Response) => {
   try {
     const team : UnitTeam = await database.findOne(req.params.id)
@@ -33,6 +41,10 @@ teamRouter.get("/team/:id", async (req : Request, res : Response) => {
   }
 })
 
+/**
+ * POST /teams
+ * Create a new team
+ */
 teamRouter.post("/teams", async (req : Request, res: Response) => {
   try {
     const { name, idJoueurA, idJoueurB } = req.body
@@ -61,6 +73,10 @@ teamRouter.post("/teams", async (req : Request, res: Response) => {
   }
 })
 
+/**
+ * PUT /team/:id
+ * Update team information
+ */
 teamRouter.put('/team/:id', async (req: Request, res: Response) => {
   try{
     const { name, idJoueurA, idJoueurB} = req.body
@@ -84,7 +100,11 @@ teamRouter.put('/team/:id', async (req: Request, res: Response) => {
   }
 })
 
-teamRouter.delete("/teams/:id", async (req : Request, res : Response) => {
+/**
+ * DELETE /teams/:id
+ * Put the team with id in delete state(or not active state)
+ */
+teamRouter.delete("/team/:id", async (req : Request, res : Response) => {
   try{
     const id = req.params.id
 

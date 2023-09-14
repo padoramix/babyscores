@@ -8,7 +8,7 @@ export const userRouter = express.Router()
 /** 
  * GET /users
  * Returns all the users
-*/
+ */
 userRouter.get("/users", async (req : Request, res : Response) => {
     try {
         const allUsers : UnitUser[] = await database.findAll()
