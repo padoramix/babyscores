@@ -1,6 +1,7 @@
 import { Team, UnitTeam, Teams } from "./team.interface"
 import {v4 as random} from "uuid"
 import fs from "fs"
+import { UnitUser } from "../users/user.interface"
 
 // Array of teams
 let teams: Teams = loadTeams()
@@ -63,6 +64,7 @@ export const findOne = async (id: string): Promise<UnitTeam> => teams[id];
 export const findByName = async (team_name: string): Promise<null | UnitTeam> => {
   const allTeams = await findAll();
 
+  
   const getTeam = allTeams.find(result => team_name === result.name);
 
   if(!getTeam){
@@ -79,10 +81,16 @@ export const findByName = async (team_name: string): Promise<null | UnitTeam> =>
  * @param player_two_id: string
  * @return {*} {Team} 
  */
-export const findByPlayers = async(player_one_id: string, player_two_id: string): Promise<null | UnitTeam> => {
+export const findByPlayers = async(players: Array<UnitUser>): Promise<null | UnitTeam> => {
   const allTeams = await findAll()
 
-  const getTeam = allTeams.find(result => ((player_one_id === result.idJoueurA || player_two_id === result.idJoueurB) && (player_two_id === result.idJoueurA || player_one_id === result.idJoueurB)) )
+  const getTeam = allTeams.find(result => (
+    (players[0].username === result.players[0].username 
+      && players[1].username === result.players[1].username
+    ) || (
+      players[0].username === result.players[1].username 
+      || players[1].username === result.players[0].username)
+  ));
 
   if(!getTeam){
     return null
@@ -112,8 +120,7 @@ export const create = async (teamData: UnitTeam): Promise<UnitTeam | null> => {
   const team : UnitTeam = {
     id: id,
     name : teamData.name,
-    idJoueurA : teamData.idJoueurA,
-    idJoueurB : teamData.idJoueurB,
+    players : teamData.players
   }
 
   teams[id] = team;

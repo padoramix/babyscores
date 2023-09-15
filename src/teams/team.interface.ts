@@ -1,7 +1,8 @@
+import { UnitUser } from "../users/user.interface"
+
 export interface Team {
   name : string,
-  idJoueurA : string,
-  idJoueurB : string,
+  players : Array<UnitUser>
 }
 
 export interface UnitTeam extends Team {

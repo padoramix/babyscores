@@ -47,15 +47,15 @@ teamRouter.get("/team/:id", async (req : Request, res : Response) => {
  */
 teamRouter.post("/teams", async (req : Request, res: Response) => {
   try {
-    const { name, idJoueurA, idJoueurB } = req.body
+    const { name, players } = req.body
     console.log(req.body)
 
-    if( !name || !idJoueurA || !idJoueurB ) {
+    if( !name || !players ) {
       return res.status(StatusCodes.BAD_REQUEST).json({error : `Please provide all the required parameters..`})
     }
 
     const team = await database.findByName(name)
-    const teamByPlayers = await database.findByPlayers(idJoueurA, idJoueurB)
+    const teamByPlayers = await database.findByPlayers(players)
 
     if(team) {
       return res.status(StatusCodes.BAD_REQUEST).json({error : `This team name has already been registered..`})
@@ -79,11 +79,11 @@ teamRouter.post("/teams", async (req : Request, res: Response) => {
  */
 teamRouter.put('/team/:id', async (req: Request, res: Response) => {
   try{
-    const { name, idJoueurA, idJoueurB} = req.body
+    const { name, players} = req.body
 
     const getTeam = await database.findOne(req.params.id)
 
-    if(!name || !idJoueurA || !idJoueurB){
+    if(!name || !players ){
       return res.status(401).json({error : `Please provide all the required parameters..`})
     }
 
