@@ -1,0 +1,104 @@
+import { UnitGame, Game, Games } from "./game.interface";
+import {v4 as random} from "uuid"
+import fs from "fs"
+import { UnitTeam } from "../teams/team.interface";
+
+// Array of games
+let games: Games = loadGames()
+
+function loadGames () : Games {
+  try{
+    const data = fs.readFileSync("./src/db/games.json", "utf-8")
+    return JSON.parse(data)
+  } catch (error){
+    console.log(`Error ${error}`)
+    return {}
+  }
+}
+
+function saveGames () {
+  try {
+    fs.writeFileSync("./src/db/games.json", JSON.stringify(games), "utf-8")
+    console.log(`Team saved successfully!`)
+  } catch (error) {
+    console.log(`Error : ${error}`)
+  }
+}
+
+export const findAll = async (): Promise<UnitGame[]> => Object.values(games);
+
+export const findOne = async (id: string): Promise<UnitGame> => games[id];
+
+// export const findByTeam = async(team: UnitTeam): Promise<null | UnitGame[]> => {
+//   const allGames = await findAll();
+
+//   const reducer = (acc: UnitGame[], cur: UnitGame) => {
+//     if(team.id === cur.teams[0].id 
+//       || team.id === cur.teams[1].id)
+//       {
+//         return acc.push(cur)
+//       }
+//   }
+//   const getGames = allGames.reduce(reducer, new Array<UnitGame>)
+  
+//   console.log("getGames : ", getGames)
+
+//   if(!getGames){
+//     return null
+//   }
+
+//   return getGames
+// }
+
+export const create = async (gameData: UnitGame): Promise<UnitGame | null> => {
+  let id = random()
+
+  let check_game = await findOne(id)
+
+  while(check_game){
+    id = random()
+    check_game = await findOne(id)
+  }
+
+  const game : UnitGame = {
+    id,
+    teams: gameData.teams,
+    scores: gameData.scores,
+    date: new Date()
+  }
+
+  games[id] = game
+
+  saveGames()
+
+  return game
+}
+
+export const update = async (id: string, updateValues: Game) : Promise<UnitGame | null> => {
+  const gameExists = await findOne(id)
+
+  if(!gameExists){
+    return null
+  }
+
+  games[id] = {
+    ...gameExists,
+    ...updateValues
+  }
+
+  saveGames()
+
+  return games[id]
+}
+
+export const remove = async (id: string) : Promise<null | void> => {
+  const game = await findOne(id)
+
+  if(!game){
+    return null
+  }
+
+  delete games[id]
+
+  saveGames()
+}

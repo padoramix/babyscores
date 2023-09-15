@@ -1,12 +1,12 @@
 import { UnitTeam } from "../teams/team.interface";
 
 export interface Game {
-  equipes: Array<UnitTeam>,
+  teams: Array<UnitTeam>,
   scores: Array<Number>,
   date: Date
 }
 
-export interface UnitGame {
+export interface UnitGame extends Game {
   id: string,
 }
 
