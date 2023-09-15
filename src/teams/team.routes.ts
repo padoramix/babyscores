@@ -1,5 +1,5 @@
 import express, {Request, Response} from "express"
-import { UnitTeam, Team} from "./team.interface"
+import { UnitTeam} from "./team.interface"
 import * as database from "./team.database"
 import { StatusCodes } from "http-status-codes"
 

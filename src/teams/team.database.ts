@@ -123,11 +123,11 @@ export const create = async (teamData: UnitTeam): Promise<UnitTeam | null> => {
     players : teamData.players
   }
 
-  teams[id] = team;
+  teams[id] = team
 
   saveTeams()
 
-  return team;
+  return team
 }
 
 /**
