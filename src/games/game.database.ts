@@ -1,11 +1,17 @@
 import { UnitGame, Game, Games } from "./game.interface";
 import {v4 as random} from "uuid"
 import fs from "fs"
-import { UnitTeam } from "../teams/team.interface";
+// import { UnitTeam } from "../teams/team.interface";
 
 // Array of games
 let games: Games = loadGames()
 
+/**
+ * loadGames
+ * Load every games from corresponding JSON file
+ *
+ * @return {*}  {Games}
+ */
 function loadGames () : Games {
   try{
     const data = fs.readFileSync("./src/db/games.json", "utf-8")
@@ -16,6 +22,11 @@ function loadGames () : Games {
   }
 }
 
+/**
+ * saveGames
+ * Saves every games present in games array
+ * 
+ */
 function saveGames () {
   try {
     fs.writeFileSync("./src/db/games.json", JSON.stringify(games), "utf-8")
@@ -25,8 +36,21 @@ function saveGames () {
   }
 }
 
+/**
+ * findAll
+ * Returns all the games in JSON file
+ * 
+ * @returns {*}  {Games}
+ */
 export const findAll = async (): Promise<UnitGame[]> => Object.values(games);
 
+/**
+ * findOne
+ * Return the game with id in params
+ * 
+ * @param id: string
+ * @returns {UnitGame}
+ */
 export const findOne = async (id: string): Promise<UnitGame> => games[id];
 
 // export const findByTeam = async(team: UnitTeam): Promise<null | UnitGame[]> => {
@@ -50,6 +74,13 @@ export const findOne = async (id: string): Promise<UnitGame> => games[id];
 //   return getGames
 // }
 
+/**
+ * create
+ * Creates a new game and record it in JSON
+ * 
+ * @param gameData: UnitGame 
+ * @returns Promise<UnitGame | null>
+ */
 export const create = async (gameData: UnitGame): Promise<UnitGame | null> => {
   let id = random()
 
@@ -74,6 +105,14 @@ export const create = async (gameData: UnitGame): Promise<UnitGame | null> => {
   return game
 }
 
+/**
+ * update
+ * Update the game target by id
+ * 
+ * @param id: string
+ * @param updateValues: Game 
+ * @returns Game
+ */
 export const update = async (id: string, updateValues: Game) : Promise<UnitGame | null> => {
   const gameExists = await findOne(id)
 
@@ -91,6 +130,13 @@ export const update = async (id: string, updateValues: Game) : Promise<UnitGame 
   return games[id]
 }
 
+/**
+ * remove
+ * Removes target id from games array
+ * 
+ * @param id: string
+ * @returns Promise<null | void>
+ */
 export const remove = async (id: string) : Promise<null | void> => {
   const game = await findOne(id)
 
