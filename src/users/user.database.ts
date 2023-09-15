@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs"
 import {v4 as random} from "uuid"
 import fs from "fs"
 
+// TODO : Implement email is unique and 1 email == 1 username
+
 /** 
  * @type {*}
  */

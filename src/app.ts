@@ -4,12 +4,18 @@ import cors from "cors"
 import helmet from "helmet"
 import { userRouter } from "./users/user.routes"
 import { teamRouter } from "./teams/team.routes"
+import { gameRouter } from "./games/game.routes"
 
 // TODO : Add comments over every function
 // TODO : Add and configure jest for tests
-// TODO : Insert same logic for games
-// TODO : Add corresponding tests
+// TODO : Add all tests
 // TODO : Start look for quick interface with vusjs maybe tailwind for CSS
+// INTERFACES : 
+// Login => simple login / account creation page
+// Home =>  SIDE MENU / HEADER MENU ? (OPTIONS : COMPTE / EQUIPES / BTN NOUVEAU MATCH)
+//          EN PAGE D'ACCUEIL : MES DERNIERS MATCHS
+// COMPTE => MODIFICATION MDP / SURNOM / AVATAR
+// 
 
 dotevnv.config()
 
@@ -29,6 +35,7 @@ app.use(helmet())
 // Setting up routes
 app.use('/', userRouter)
 app.use('/', teamRouter)
+app.use('/', gameRouter)
 
 // Launching server and listening for PORT (from .env)
 app.listen(PORT, () => {
