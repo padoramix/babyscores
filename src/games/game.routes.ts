@@ -3,9 +3,12 @@ import { UnitGame } from "./game.interface";
 import * as database from "./game.database"
 import { StatusCodes } from "http-status-codes";
 
-
 export const gameRouter = express.Router()
 
+/**
+ * GET /games
+ * Get all the games in database
+ */
 gameRouter.get("/games", async (req: Request, res : Response) => {
   try{
     const allGames: UnitGame[] = await database.findAll()
@@ -20,6 +23,10 @@ gameRouter.get("/games", async (req: Request, res : Response) => {
   }
 })
 
+/**
+ * POST /games
+ * Creates a new game and set score
+ */
 gameRouter.post("/games", async (req: Request, res : Response) => {
   try{
     const { teams, scores, date } = req.body
