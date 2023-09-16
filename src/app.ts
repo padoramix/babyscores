@@ -6,7 +6,6 @@ import { userRouter } from "./users/user.routes"
 import { teamRouter } from "./teams/team.routes"
 import { gameRouter } from "./games/game.routes"
 
-// TODO : Add comments over every function
 // TODO : Add and configure jest for tests
 // TODO : Add all tests
 // TODO : Start look for quick interface with vusjs maybe tailwind for CSS
