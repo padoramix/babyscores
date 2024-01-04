@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "rootDir": ".",
+    "outDir": "./dist",
+    "emitDecoratorMetadata": true,
+    "lib": [
+      "es6"
+   ],
+   "target": "es6",
+   "module": "commonjs",
+   "moduleResolution": "node",
+   "sourceMap": true,
+   "incremental": true,
+   "skipLibCheck": true,
+   "strictNullChecks": false,
+   "noImplicitAny": false,
+   "strictBindCallApply": false,
+   "forceConsistentCasingInFileNames": false,
+   "noFallthroughCasesInSwitch": false
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+  ],
+}
