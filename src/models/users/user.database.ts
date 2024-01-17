@@ -6,17 +6,21 @@ import { User, UnitUser, Users } from './user.interface';
 // TODO : Implement email is unique and 1 email == 1 username
 
 /**
+ * @type {*}
+ */
+let users: Users = [] as unknown as Users;
+
+/**
  * Private loadUsers
  * Function that load all users from JSON file
  * Return empty object when no users
  *
  * @return {*}  {Users}
  */
-function loadUsers() : Users {
+export function loadUsers() : Users {
   try {
     const here = __dirname;
-    console.log('dirname : ', here);
-    const data = fs.readFileSync('./src/db/users.json', 'utf-8');
+    const data = fs.readFileSync(`${here}/../../db/users.json`, 'utf-8');
     return JSON.parse(data);
   } catch (error) {
     console.log(`Error ${error}`);
@@ -25,9 +29,17 @@ function loadUsers() : Users {
 }
 
 /**
- * @type {*}
+ * Init function that initialises the Users array
+ *
+ * @export
  */
-const users: Users = loadUsers();
+export function init() {
+  try {
+    users = loadUsers();
+  } catch (e) {
+    console.log('Error during the initialization of users');
+  }
+}
 
 /**
  * saveUsers
@@ -36,6 +48,7 @@ const users: Users = loadUsers();
  */
 function saveUsers() {
   try {
+    console.log('Users before save : ', users);
     fs.writeFileSync('./src/db/users.json', JSON.stringify(users), 'utf-8');
     console.log('User saved successfully!');
   } catch (error) {
@@ -49,7 +62,10 @@ function saveUsers() {
  *
  * @return {*} {Users}
  */
-export const findAll = async (): Promise<UnitUser[]> => Object.values(users);
+export const findAll = async (): Promise<UnitUser[]> => {
+  console.log('Users in user.database : ', users);
+  return Object.values(users);
+};
 
 /**
  * findOne
@@ -69,7 +85,6 @@ export const findOne = async (id: string): Promise<UnitUser> => users[id];
  */
 export const create = async (userData: UnitUser): Promise<UnitUser | null> => {
   let id = random();
-
   let checkUser = await findOne(id);
 
   if (checkUser) {

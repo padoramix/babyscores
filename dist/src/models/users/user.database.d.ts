@@ -1,4 +1,6 @@
-import { User, UnitUser } from './user.interface';
+import { User, UnitUser, Users } from './user.interface';
+export declare function loadUsers(): Users;
+export declare function init(): void;
 export declare const findAll: () => Promise<UnitUser[]>;
 export declare const findOne: (id: string) => Promise<UnitUser>;
 export declare const create: (userData: UnitUser) => Promise<UnitUser | null>;

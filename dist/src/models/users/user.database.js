@@ -9,15 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.remove = exports.update = exports.comparePassword = exports.findByEmail = exports.create = exports.findOne = exports.findAll = void 0;
+exports.remove = exports.update = exports.comparePassword = exports.findByEmail = exports.create = exports.findOne = exports.findAll = exports.init = exports.loadUsers = void 0;
 const bcryptjs_1 = require("bcryptjs");
 const uuid_1 = require("uuid");
 const fs = require("fs");
+let users = [];
 function loadUsers() {
     try {
         const here = __dirname;
-        console.log('dirname : ', here);
-        const data = fs.readFileSync('./src/db/users.json', 'utf-8');
+        const data = fs.readFileSync(`${here}/../../db/users.json`, 'utf-8');
         return JSON.parse(data);
     }
     catch (error) {
@@ -25,9 +25,19 @@ function loadUsers() {
         return {};
     }
 }
-const users = loadUsers();
+exports.loadUsers = loadUsers;
+function init() {
+    try {
+        users = loadUsers();
+    }
+    catch (e) {
+        console.log('Error during the initialization of users');
+    }
+}
+exports.init = init;
 function saveUsers() {
     try {
+        console.log('Users before save : ', users);
         fs.writeFileSync('./src/db/users.json', JSON.stringify(users), 'utf-8');
         console.log('User saved successfully!');
     }
@@ -35,7 +45,10 @@ function saveUsers() {
         console.log(`Error : ${error}`);
     }
 }
-const findAll = () => __awaiter(void 0, void 0, void 0, function* () { return Object.values(users); });
+const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('Users in user.database : ', users);
+    return Object.values(users);
+});
 exports.findAll = findAll;
 const findOne = (id) => __awaiter(void 0, void 0, void 0, function* () { return users[id]; });
 exports.findOne = findOne;

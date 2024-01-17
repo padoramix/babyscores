@@ -13,6 +13,7 @@ const userRouter : Router = Router();
  * Returns all the users
  */
 userRouter.get('/users', async (req : Request, res : Response) => {
+  console.log('In get /users...');
   try {
     const allUsers : UnitUser[] = await database.findAll();
 
@@ -20,7 +21,9 @@ userRouter.get('/users', async (req : Request, res : Response) => {
       return res.status(StatusCodes.NOT_FOUND).json({ msg: 'No users at this time..' });
     }
 
-    return res.status(StatusCodes.OK).json({ total_user: allUsers.length, allUsers });
+    console.log('AllUsers : ', allUsers);
+
+    return res.status(StatusCodes.OK).json({ total_user: allUsers.length, users: allUsers });
   } catch (error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
@@ -48,18 +51,19 @@ userRouter.get('/user/:id', async (req : Request, res : Response) => {
  * POST /register
  * Record a new user
  */
-userRouter.post('/register', async (req : Request, res : Response) => {
+userRouter.post('/users', async (req : Request, res : Response) => {
   try {
     const {
       username, email, password, avatar,
     } = req.body;
-    console.log(req.body);
+    console.log('Req.body : ', req.body);
 
     if (!username || !email || !password || !avatar) {
       return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Please provide all the required parameters..' });
     }
 
     const user = await database.findByEmail(email);
+    console.log('FindByEmail result : ', user);
 
     if (user) {
       return res.status(StatusCodes.BAD_REQUEST).json({ error: 'This email has already been registered..' });

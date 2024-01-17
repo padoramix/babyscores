@@ -16,12 +16,14 @@ const database = require("./user.database");
 const userRouter = (0, express_1.Router)();
 exports.userRouter = userRouter;
 userRouter.get('/users', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('In get /users...');
     try {
         const allUsers = yield database.findAll();
         if (!allUsers) {
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json({ msg: 'No users at this time..' });
         }
-        return res.status(http_status_codes_1.StatusCodes.OK).json({ total_user: allUsers.length, allUsers });
+        console.log('AllUsers : ', allUsers);
+        return res.status(http_status_codes_1.StatusCodes.OK).json({ total_user: allUsers.length, users: allUsers });
     }
     catch (error) {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
@@ -39,14 +41,15 @@ userRouter.get('/user/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
     }
 }));
-userRouter.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+userRouter.post('/users', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, password, avatar, } = req.body;
-        console.log(req.body);
+        console.log('Req.body : ', req.body);
         if (!username || !email || !password || !avatar) {
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ error: 'Please provide all the required parameters..' });
         }
         const user = yield database.findByEmail(email);
+        console.log('FindByEmail result : ', user);
         if (user) {
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ error: 'This email has already been registered..' });
         }

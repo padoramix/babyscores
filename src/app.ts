@@ -1,10 +1,10 @@
-import express from 'express';
+import * as express from 'express';
 import * as dotenv from 'dotenv';
-import cors from 'cors';
+import * as cors from 'cors';
 import helmet from 'helmet';
 import { userRouter } from './models/users/user.routes';
-import { teamRouter } from './models/teams/team.routes';
-import { gameRouter } from './models/games/game.routes';
+// import { teamRouter } from './models/teams/team.routes';
+// import { gameRouter } from './models/games/game.routes';
 
 // TODO : Add and configure jest for tests
 // TODO : Add all tests
@@ -32,11 +32,11 @@ app.use(helmet());
 
 // Setting up routes
 app.use('/', userRouter);
-app.use('/', teamRouter);
-app.use('/', gameRouter);
+// app.use('/', teamRouter);
+// app.use('/', gameRouter);
 
 // Launching server and listening for PORT (from .env)
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
 
